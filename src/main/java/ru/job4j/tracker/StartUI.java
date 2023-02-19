@@ -10,6 +10,7 @@ public class StartUI {
             run = actions[select].execute(input, tracker);
         }
     }
+
     private void showMenu() {
         String[] menu = {
                 "Add new Item", "Show all items", "Edit item",
