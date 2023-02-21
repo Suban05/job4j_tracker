@@ -12,7 +12,7 @@ class FactTest {
                 () -> {
                     new Fact().calc(-1);
                 });
-        assertThat(exception.getMessage()).isEqualTo("Start should be less than finish.");
+        assertThat(exception.getMessage()).isEqualTo("N could not be less then 0");
     }
 
     @Test
