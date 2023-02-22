@@ -37,6 +37,7 @@ public class PasswordValidator {
                 || str.toLowerCase().contains("admin")
                 || str.toLowerCase().contains("user");
     }
+
     public static boolean isNotUpperCaseAnySymbol(String str) {
         return !new Validator(new UpperCaseValidator()).isValid(str);
     }
@@ -52,6 +53,7 @@ public class PasswordValidator {
     public static boolean hasNotAnySpecialSymbol(String str) {
         return !hasAnySpecialSymbol(str);
     }
+
     public static boolean hasAnySpecialSymbol(String str) {
         char[] symbols = str.toCharArray();
         for (int i = 1; i < symbols.length; i++) {
