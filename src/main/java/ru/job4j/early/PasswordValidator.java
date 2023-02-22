@@ -12,16 +12,16 @@ public class PasswordValidator {
         if (password.length() < 8 || password.length() > 32) {
             raise("Password should be length [8, 32]");
         }
-        if (!isUpperCaseAnySymbol(password)) {
+        if (isNotUpperCaseAnySymbol(password)) {
             raise("Password should contain at least one uppercase letter");
         }
-        if (!isLowerCaseAnySymbol(password)) {
+        if (isNotLowerCaseAnySymbol(password)) {
             raise("Password should contain at least one lowercase letter");
         }
-        if (!isDigitCaseAnySymbol(password)) {
+        if (isNotDigitCaseAnySymbol(password)) {
             raise("Password should contain at least one figure");
         }
-        if (!hasAnySpecialSymbol(password)) {
+        if (hasNotAnySpecialSymbol(password)) {
             raise("Password should contain at least one special symbol");
         }
         if (notContainsSpecialString(password)) {
@@ -37,18 +37,21 @@ public class PasswordValidator {
                 || str.toLowerCase().contains("admin")
                 || str.toLowerCase().contains("user");
     }
-    public static boolean isUpperCaseAnySymbol(String str) {
-        return new Validator(new UpperCaseValidator()).isValid(str);
+    public static boolean isNotUpperCaseAnySymbol(String str) {
+        return !new Validator(new UpperCaseValidator()).isValid(str);
     }
 
-    public static boolean isLowerCaseAnySymbol(String str) {
-        return new Validator(new LowerCaseValidator()).isValid(str);
+    public static boolean isNotLowerCaseAnySymbol(String str) {
+        return !new Validator(new LowerCaseValidator()).isValid(str);
     }
 
-    public static boolean isDigitCaseAnySymbol(String str) {
-        return new Validator(new DigitValidator()).isValid(str);
+    public static boolean isNotDigitCaseAnySymbol(String str) {
+        return !new Validator(new DigitValidator()).isValid(str);
     }
 
+    public static boolean hasNotAnySpecialSymbol(String str) {
+        return !hasAnySpecialSymbol(str);
+    }
     public static boolean hasAnySpecialSymbol(String str) {
         char[] symbols = str.toCharArray();
         for (int i = 1; i < symbols.length; i++) {
