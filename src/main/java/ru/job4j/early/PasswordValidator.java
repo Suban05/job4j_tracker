@@ -24,13 +24,13 @@ public class PasswordValidator {
         if (hasNotAnySpecialSymbol(password)) {
             raise("Password should contain at least one special symbol");
         }
-        if (ContainsSpecialString(password)) {
+        if (containsSpecialString(password)) {
             raise("Password shouldn't contain substrings: qwerty, 12345, password, admin, user");
         }
         return password;
     }
 
-    public static boolean ContainsSpecialString(String str) {
+    public static boolean containsSpecialString(String str) {
         String[] exceptions = {"qwerty", "12345", "password", "admin", "user"};
         for (String exp : exceptions) {
             if (str.toLowerCase().contains(exp)) {
