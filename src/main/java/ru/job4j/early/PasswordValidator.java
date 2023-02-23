@@ -24,45 +24,58 @@ public class PasswordValidator {
         if (hasNotAnySpecialSymbol(password)) {
             raise("Password should contain at least one special symbol");
         }
-        if (notContainsSpecialString(password)) {
+        if (ContainsSpecialString(password)) {
             raise("Password shouldn't contain substrings: qwerty, 12345, password, admin, user");
         }
         return password;
     }
 
-    public static boolean notContainsSpecialString(String str) {
-        return str.toLowerCase().contains("qwerty")
-                || str.contains("12345")
-                || str.toLowerCase().contains("password")
-                || str.toLowerCase().contains("admin")
-                || str.toLowerCase().contains("user");
-    }
-
-    public static boolean isNotUpperCaseAnySymbol(String str) {
-        return !new Validator(new UpperCaseValidator()).isValid(str);
-    }
-
-    public static boolean isNotLowerCaseAnySymbol(String str) {
-        return !new Validator(new LowerCaseValidator()).isValid(str);
-    }
-
-    public static boolean isNotDigitCaseAnySymbol(String str) {
-        return !new Validator(new DigitValidator()).isValid(str);
-    }
-
-    public static boolean hasNotAnySpecialSymbol(String str) {
-        return !hasAnySpecialSymbol(str);
-    }
-
-    public static boolean hasAnySpecialSymbol(String str) {
-        char[] symbols = str.toCharArray();
-        for (int i = 1; i < symbols.length; i++) {
-            int code = Character.codePointAt(symbols, i);
-            if (isSpecialSymbol(code)) {
+    public static boolean ContainsSpecialString(String str) {
+        String[] exceptions = {"qwerty", "12345", "password", "admin", "user"};
+        for (String exp : exceptions) {
+            if (str.toLowerCase().contains(exp)) {
                 return true;
             }
         }
         return false;
+    }
+
+    public static boolean isNotUpperCaseAnySymbol(String str) {
+        for (char symbol : str.toCharArray()) {
+            if (Character.isUpperCase(symbol)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isNotLowerCaseAnySymbol(String str) {
+        for (char symbol : str.toCharArray()) {
+            if (Character.isLowerCase(symbol)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isNotDigitCaseAnySymbol(String str) {
+        for (char symbol : str.toCharArray()) {
+            if (Character.isDigit(symbol)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean hasNotAnySpecialSymbol(String str) {
+        char[] symbols = str.toCharArray();
+        for (int i = 1; i < symbols.length; i++) {
+            int code = Character.codePointAt(symbols, i);
+            if (isSpecialSymbol(code)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static boolean isSpecialSymbol(int code) {
