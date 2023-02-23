@@ -12,18 +12,7 @@ public class PasswordValidator {
         if (password.length() < 8 || password.length() > 32) {
             raise("Password should be length [8, 32]");
         }
-        if (isNotUpperCaseAnySymbol(password)) {
-            raise("Password should contain at least one uppercase letter");
-        }
-        if (isNotLowerCaseAnySymbol(password)) {
-            raise("Password should contain at least one lowercase letter");
-        }
-        if (isNotDigitCaseAnySymbol(password)) {
-            raise("Password should contain at least one figure");
-        }
-        if (hasNotAnySpecialSymbol(password)) {
-            raise("Password should contain at least one special symbol");
-        }
+        checkSymbols(password);
         if (containsSpecialString(password)) {
             raise("Password shouldn't contain substrings: qwerty, 12345, password, admin, user");
         }
@@ -40,42 +29,40 @@ public class PasswordValidator {
         return false;
     }
 
-    public static boolean isNotUpperCaseAnySymbol(String str) {
-        for (char symbol : str.toCharArray()) {
-            if (Character.isUpperCase(symbol)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static boolean isNotLowerCaseAnySymbol(String str) {
-        for (char symbol : str.toCharArray()) {
-            if (Character.isLowerCase(symbol)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static boolean isNotDigitCaseAnySymbol(String str) {
-        for (char symbol : str.toCharArray()) {
-            if (Character.isDigit(symbol)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static boolean hasNotAnySpecialSymbol(String str) {
+    public static void checkSymbols(String str) {
+        boolean hasUpperCase = false;
+        boolean hasLowerCase = false;
+        boolean hasDigit = false;
+        boolean hasSpecialSymbol = false;
         char[] symbols = str.toCharArray();
         for (int i = 1; i < symbols.length; i++) {
+            char symbol = symbols[i];
+            if (!hasUpperCase) {
+                hasUpperCase = Character.isUpperCase(symbol);
+            }
+            if (!hasLowerCase) {
+                hasLowerCase = Character.isLowerCase(symbol);
+            }
+            if (!hasDigit) {
+                hasDigit = Character.isDigit(symbol);
+            }
             int code = Character.codePointAt(symbols, i);
-            if (isSpecialSymbol(code)) {
-                return false;
+            if (!hasSpecialSymbol) {
+                hasSpecialSymbol = isSpecialSymbol(code);
             }
         }
-        return true;
+        if (!hasUpperCase) {
+            raise("Password should contain at least one uppercase letter");
+        }
+        if (!hasLowerCase) {
+            raise("Password should contain at least one lowercase letter");
+        }
+        if (!hasDigit) {
+            raise("Password should contain at least one figure");
+        }
+        if (!hasSpecialSymbol) {
+            raise("Password should contain at least one special symbol");
+        }
     }
 
     public static boolean isSpecialSymbol(int code) {
