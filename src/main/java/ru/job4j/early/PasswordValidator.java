@@ -35,7 +35,10 @@ public class PasswordValidator {
         boolean hasDigit = false;
         boolean hasSpecialSymbol = false;
         char[] symbols = str.toCharArray();
-        for (int i = 1; i < symbols.length; i++) {
+        for (int i = 0; i < symbols.length; i++) {
+            if (hasSpecialSymbol && hasLowerCase && hasDigit && hasSpecialSymbol) {
+                break;
+            }
             char symbol = symbols[i];
             if (!hasUpperCase) {
                 hasUpperCase = Character.isUpperCase(symbol);
